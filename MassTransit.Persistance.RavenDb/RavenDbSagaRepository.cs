@@ -15,28 +15,29 @@ namespace MassTransit.Persistance.RavenDb
     public class RavenDbSagaRepository<TSaga> : 
         ISagaRepository<TSaga> where TSaga : class, ISaga
     {
-        private IDocumentStore _documentStore;
-        private ILog _log = Logger.Get(typeof (RavenDbSagaRepository<TSaga>).ToFriendlyName());
+        private static readonly ILog Log = Logger.Get<RavenDbSagaRepository<TSaga>>();
+
+        private readonly IDocumentStore _documentStore;
+
 
         public RavenDbSagaRepository(IDocumentStore documentStore)
         {
             _documentStore = documentStore;
         }
 
-
         public IEnumerable<Action<IConsumeContext<TMessage>>> GetSaga<TMessage>(IConsumeContext<TMessage> context, Guid sagaId, InstanceHandlerSelector<TSaga, TMessage> selector, ISagaPolicy<TSaga, TMessage> policy) where TMessage : class
         {
             using(var session = _documentStore.OpenSession())
             {
-                var instance = session.Load<TSaga>(sagaId.ToString());
+                var instance = session.Load<TSaga>(GetDocumentKey(sagaId));
                 if(instance == null)
                 {
                     if(policy.CanCreateInstance(context))
                     {
                         yield return x =>
                             {
-                                if (_log.IsDebugEnabled)
-                                    _log.DebugFormat("SAGA: {0} Creating New {1} for {2}",
+                                if (Log.IsDebugEnabled)
+                                    Log.DebugFormat("SAGA: {0} Creating New {1} for {2}",
                                                      typeof (TSaga).ToFriendlyName(), sagaId,
                                                      typeof (TMessage).ToFriendlyName());
 
@@ -50,25 +51,22 @@ namespace MassTransit.Persistance.RavenDb
                                     }
 
                                     if (!policy.CanRemoveInstance(instance))
-                                        session.Store(instance);
+                                        session.Store(instance, GetDocumentKey(sagaId));
                                 }
                                 catch (Exception ex)
                                 {
                                     var sex = new SagaException("Create Saga Instance Exception", typeof(TSaga), typeof(TMessage), sagaId, ex);
-                                    if (_log.IsErrorEnabled)
-                                        _log.Error(sex);
-
-                                    //if (transaction.IsActive)
-                                    //    transaction.Rollback();
-
+                                    if (Log.IsErrorEnabled)
+                                        Log.Error(sex);
+                                    
                                     throw sex;
                                 }
                             };
                     }
                     else
                     {
-                        if (_log.IsDebugEnabled)
-                            _log.DebugFormat("SAGA: {0} Ignoring Missing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
+                        if (Log.IsDebugEnabled)
+                            Log.DebugFormat("SAGA: {0} Ignoring Missing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
                                 typeof(TMessage).ToFriendlyName());
                     }
                 }
@@ -78,8 +76,8 @@ namespace MassTransit.Persistance.RavenDb
                     {
                         yield return x =>
                         {
-                            if (_log.IsDebugEnabled)
-                                _log.DebugFormat("SAGA: {0} Using Existing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
+                            if (Log.IsDebugEnabled)
+                                Log.DebugFormat("SAGA: {0} Using Existing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
                                     typeof(TMessage).ToFriendlyName());
 
                             try
@@ -95,28 +93,28 @@ namespace MassTransit.Persistance.RavenDb
                             catch (Exception ex)
                             {
                                 var sex = new SagaException("Existing Saga Instance Exception", typeof(TSaga), typeof(TMessage), sagaId, ex);
-                                if (_log.IsErrorEnabled)
-                                    _log.Error(sex);
-
-                                //if (transaction.IsActive)
-                                //    transaction.Rollback();
-
+                                if (Log.IsErrorEnabled)
+                                    Log.Error(sex);
+                                
                                 throw sex;
                             }
                         };
                     }
                     else
                     {
-                        if (_log.IsDebugEnabled)
-                            _log.DebugFormat("SAGA: {0} Ignoring Existing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
+                        if (Log.IsDebugEnabled)
+                            Log.DebugFormat("SAGA: {0} Ignoring Existing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
                                 typeof(TMessage).ToFriendlyName());
                     }
                 }
 
-                //if (transaction.IsActive)
-                //    transaction.Commit();
-
+                session.SaveChanges();
             }
+        }
+
+        private string GetDocumentKey(Guid sagaId)
+        {
+            return string.Format("{0}/{1}", typeof (TSaga).Name, sagaId);
         }
 
         public IEnumerable<Guid> Find(ISagaFilter<TSaga> filter)
