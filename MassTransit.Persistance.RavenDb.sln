@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Persistance.RavenDb", "MassTransit.Persistance.RavenDb\MassTransit.Persistance.RavenDb.csproj", "{016A494C-CA77-4C06-B7ED-22BC2456414F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EEC97B45-9446-4C7A-AF82-FA99E1122319}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Persistance.RavenDbIntegration.Tests", "MassTransit.Persistance.RavenDbIntegration.Tests\MassTransit.Persistance.RavenDbIntegration.Tests.csproj", "{17EB98BA-23F6-41CD-A430-01DA7AC5C625}"
 EndProject
 Global
