@@ -1,23 +1,20 @@
-﻿using System.Data;
-using MassTransit.Context;
-using MassTransit.Persistance.RavenDb;
-using MassTransit.Persistance.RavenDbIntegration.Tests.Framework;
-using Raven.Client.Document;
-
-namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
+﻿namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Context;
+    using Framework;
     using Magnum.Extensions;
-    using MassTransit.Saga;
     using NUnit.Framework;
+    using Raven.Client;
+    using RavenDb;
     using Saga;
 
     [TestFixture, Category("Integration")]
     public class When_using_the_saga_locator_with_NHibernate
     {
-        private DocumentStore _store;
+        private IDocumentStore _store;
         Guid _sagaId;
 
         [SetUp]

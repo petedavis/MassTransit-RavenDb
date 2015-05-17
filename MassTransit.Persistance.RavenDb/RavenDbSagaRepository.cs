@@ -29,7 +29,7 @@ namespace MassTransit.Persistance.RavenDb
         {
             using(var session = _documentStore.OpenSession())
             {
-                var instance = session.Load<TSaga>(GetDocumentKey(sagaId));
+                var instance = session.Load<TSaga>(GetDocumentId(sagaId));
                 if(instance == null)
                 {
                     if(policy.CanCreateInstance(context))
@@ -51,7 +51,7 @@ namespace MassTransit.Persistance.RavenDb
                                     }
 
                                     if (!policy.CanRemoveInstance(instance))
-                                        session.Store(instance, GetDocumentKey(sagaId));
+                                        session.Store(instance, GetDocumentId(sagaId));
                                 }
                                 catch (Exception ex)
                                 {
@@ -112,9 +112,9 @@ namespace MassTransit.Persistance.RavenDb
             }
         }
 
-        private string GetDocumentKey(Guid sagaId)
+        private string GetDocumentId(Guid sagaId)
         {
-            return string.Format("{0}/{1}", typeof (TSaga).Name, sagaId);
+            return typeof(TSaga).Name + "/" + sagaId;
         }
 
         public IEnumerable<Guid> Find(ISagaFilter<TSaga> filter)
@@ -124,14 +124,11 @@ namespace MassTransit.Persistance.RavenDb
 
         public IEnumerable<TSaga> Where(ISagaFilter<TSaga> filter)
         {
-            using (var scope = new TransactionScope(TransactionScopeOption.RequiresNew))
             using (var session = _documentStore.OpenSession())
             {
                 List<TSaga> result = session.Query<TSaga>()
                     .Where(filter.FilterExpression)
                     .ToList();
-
-                scope.Complete();
 
                 return result;
             }
@@ -144,14 +141,11 @@ namespace MassTransit.Persistance.RavenDb
 
         public IEnumerable<TResult> Select<TResult>(Func<TSaga, TResult> transformer)
         {
-            using (var scope = new TransactionScope(TransactionScopeOption.RequiresNew))
             using (var session = _documentStore.OpenSession())
             {
                 List<TResult> result = session.Query<TSaga>()
                     .Select(transformer)
                     .ToList();
-
-                scope.Complete();
 
                 return result;
             }

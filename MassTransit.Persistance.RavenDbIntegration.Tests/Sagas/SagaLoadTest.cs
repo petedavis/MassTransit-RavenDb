@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-
-namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
+﻿namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
 {
+    using NUnit.Framework;
+
     [TestFixture, Category("Integration")]
     public class SagaLoadTest //: LoopbackTestFixture <- in the tests project
     {

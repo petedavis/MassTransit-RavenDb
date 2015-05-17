@@ -33,7 +33,8 @@ namespace MassTransit.Persistance.RavenDb
                 var existingSubscription = session.Query<PersistentSubscription>()
                     .Where(x => x.BusUri == subscription.BusUri)
                     .Where(x => x.PeerId == subscription.PeerId)
-                    .SingleOrDefault(x => x.SubscriptionId == subscription.SubscriptionId);
+                    .Where(x => x.SubscriptionId == subscription.SubscriptionId)
+                    .SingleOrDefault();
 
                 if (existingSubscription != null)
                 {
@@ -45,7 +46,7 @@ namespace MassTransit.Persistance.RavenDb
                 {
                     Log.DebugFormat("Adding: {0}", subscription);
 
-                    session.Store(subscription);
+                    session.Store(subscription, "PersistentSubscription/" + NewId.NextGuid());
                 }
                 session.SaveChanges();
             }
@@ -79,9 +80,7 @@ namespace MassTransit.Persistance.RavenDb
                     .Where(x => x.BusUri == busUri)
                     .OrderBy(x => x.PeerId)
                     .ToList();
-
-                session.SaveChanges();
-
+                
                 return existingSubscription;
             }
         }

@@ -1,21 +1,26 @@
-﻿using System;
-using System.IO;
-using Raven.Client.Document;
-using Raven.Client.Embedded;
+﻿using Raven.Client.Embedded;
 
 namespace MassTransit.Persistance.RavenDbIntegration.Tests.Framework
 {
+    using Raven.Client;
+    using Raven.Client.Document;
+
     public class TestConfigurator
     {
-        public static DocumentStore CreateDocumentStore()
+        public static IDocumentStore CreateDocumentStore()
         {
-            var path = "./db";
+            var documentStore = new EmbeddableDocumentStore
+            {
+                RunInMemory = true,
+                Conventions =
+                {
+                    DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite
+                }
+            };
 
-            if (Directory.Exists(path)) Directory.Delete(path, true);
+            documentStore.Initialize();
 
-            var ds = new EmbeddableDocumentStore{DataDirectory = path};
-
-            return ds;
+            return documentStore;
         } 
     }
 }

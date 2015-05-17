@@ -11,14 +11,15 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-using System;
-using System.Diagnostics;
-using System.Threading;
-using Magnum.StateMachine;
-using MassTransit.Saga;
-
 namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
 {
+    using System;
+    using System.Diagnostics;
+    using System.Runtime.Serialization;
+    using System.Threading;
+    using Magnum.StateMachine;
+    using Saga;
+
     public class ConcurrentSaga :
         SagaStateMachine<ConcurrentSaga>,
         ISaga
@@ -58,6 +59,26 @@ namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
         protected ConcurrentSaga()
         {
         }
+        public ConcurrentSaga(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            CorrelationId =new Guid(info.GetString("CorrelationId"));
+            Name = info.GetString("Name");
+            Value = info.GetInt32("Value");
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("CorrelationId", CorrelationId.ToString());
+            info.AddValue("Name", Name);
+            info.AddValue("Value", Value);
+            base.GetObjectData(info, context);
+        }
+
+        public string Id
+        {
+            get { return "ConcurrentSaga/" + CorrelationId; }
+        } 
 
         public static State Initial { get; set; }
         public static State Completed { get; set; }

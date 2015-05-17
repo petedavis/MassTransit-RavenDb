@@ -4,6 +4,9 @@ using MassTransit.Saga;
 
 namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
 {
+    using System.Runtime.Serialization;
+    using Raven.Imports.Newtonsoft.Json;
+
     public class TestSaga :
         SagaStateMachine<TestSaga>,
         ISaga
@@ -39,6 +42,26 @@ namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
         public TestSaga(Guid correlationId)
         {
             CorrelationId = correlationId;
+        }
+
+        public TestSaga(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            CorrelationId =new Guid(info.GetString("CorrelationId"));
+            Name = info.GetString("Name");
+            WasInitiated = info.GetBoolean("WasInitiated");
+            WasObserved = info.GetBoolean("WasObserved");
+            WasCompleted = info.GetBoolean("WasCompleted");
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("CorrelationId", CorrelationId.ToString());
+            info.AddValue("Name", Name);
+            info.AddValue("WasInitiated", WasInitiated);
+            info.AddValue("WasObserved", WasObserved);
+            info.AddValue("WasCompleted", WasCompleted);
+            base.GetObjectData(info, context);
         }
 
         public static State Initial { get; set; }

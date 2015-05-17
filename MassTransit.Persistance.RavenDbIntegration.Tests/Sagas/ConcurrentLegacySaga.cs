@@ -3,15 +3,15 @@
     using System;
     using System.Diagnostics;
     using System.Threading;
-    using MassTransit.Saga;
-    using log4net;
+    using Logging;
+    using Saga;
 
     public class ConcurrentLegacySaga :
         ISaga,
         InitiatedBy<StartConcurrentSaga>,
         Orchestrates<ContinueConcurrentSaga>
     {
-        static readonly ILog _log = LogManager.GetLogger(typeof(ConcurrentLegacySaga));
+        static readonly ILog _log = Logger.Get<ConcurrentLegacySaga>();
 
 
         public ConcurrentLegacySaga(Guid correlationId)
