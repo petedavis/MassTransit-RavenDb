@@ -14,7 +14,7 @@ namespace MassTransit
 {
     using System;
     using BusConfigurators;
-    using Persistance.RavenDb;
+    using Persistence.RavenDb;
     using Raven.Client;
     using SubscriptionConfigurators;
     using Subscriptions.Coordinator;

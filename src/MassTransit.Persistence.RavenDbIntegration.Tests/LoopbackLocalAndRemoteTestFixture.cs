@@ -17,7 +17,7 @@ using MassTransit.Subscriptions.Coordinator;
 using MassTransit.Transports.Loopback;
 using NUnit.Framework;
 
-namespace MassTransit.Persistance.RavenDbIntegration.Tests
+namespace MassTransit.Persistence.RavenDbIntegration.Tests
 {
     [TestFixture]
     public class LoopbackLocalAndRemoteTestFixture :

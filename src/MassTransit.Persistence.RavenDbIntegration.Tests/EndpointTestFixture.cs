@@ -21,7 +21,7 @@ using MassTransit.TestFramework.Fixtures;
 using MassTransit.Transports;
 using NUnit.Framework;
 
-namespace MassTransit.Persistance.RavenDbIntegration.Tests
+namespace MassTransit.Persistence.RavenDbIntegration.Tests
 {
     [TestFixture]
 	public abstract class EndpointTestFixture<TTransportFactory>

@@ -2,7 +2,7 @@ using System;
 using Magnum.StateMachine;
 using MassTransit.Saga;
 
-namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
+namespace MassTransit.Persistence.RavenDbIntegration.Tests.Sagas
 {
     using System.Runtime.Serialization;
     using Raven.Imports.Newtonsoft.Json;

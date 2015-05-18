@@ -10,7 +10,7 @@ using MassTransit.Util;
 using Raven.Client;
 using Raven.Client.Linq;
 
-namespace MassTransit.Persistance.RavenDb
+namespace MassTransit.Persistence.RavenDb
 {
     public class RavenDbSagaRepository<TSaga> : 
         ISagaRepository<TSaga> where TSaga : class, ISaga

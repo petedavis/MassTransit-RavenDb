@@ -1,6 +1,6 @@
 ﻿
 
-namespace MassTransit.Persistance.RavenDb
+namespace MassTransit.Persistence.RavenDb
 {
     using System;
     using System.Collections.Generic;

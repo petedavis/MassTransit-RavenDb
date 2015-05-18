@@ -8,8 +8,8 @@
     <ProjectGuid>{016A494C-CA77-4C06-B7ED-22BC2456414F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MassTransit.Persistance.RavenDb</RootNamespace>
-    <AssemblyName>MassTransit.Persistance.RavenDb</AssemblyName>
+    <RootNamespace>MassTransit.Persistence.RavenDb</RootNamespace>
+    <AssemblyName>MassTransit.Persistence.RavenDb</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>

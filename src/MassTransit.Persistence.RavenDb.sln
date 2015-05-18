@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Persistance.RavenDb", "MassTransit.Persistance.RavenDb\MassTransit.Persistance.RavenDb.csproj", "{016A494C-CA77-4C06-B7ED-22BC2456414F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Persistence.RavenDb", "MassTransit.Persistence.RavenDb\MassTransit.Persistence.RavenDb.csproj", "{016A494C-CA77-4C06-B7ED-22BC2456414F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Persistance.RavenDbIntegration.Tests", "MassTransit.Persistance.RavenDbIntegration.Tests\MassTransit.Persistance.RavenDbIntegration.Tests.csproj", "{17EB98BA-23F6-41CD-A430-01DA7AC5C625}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Persistence.RavenDbIntegration.Tests", "MassTransit.Persistence.RavenDbIntegration.Tests\MassTransit.Persistence.RavenDbIntegration.Tests.csproj", "{17EB98BA-23F6-41CD-A430-01DA7AC5C625}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

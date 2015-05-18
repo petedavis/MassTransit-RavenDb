@@ -1,4 +1,4 @@
-﻿namespace MassTransit.Persistance.RavenDbIntegration.Tests.Sagas
+﻿namespace MassTransit.Persistence.RavenDbIntegration.Tests.Sagas
 {
     using NUnit.Framework;
 

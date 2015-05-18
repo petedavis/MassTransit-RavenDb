@@ -8,8 +8,8 @@
     <ProjectGuid>{17EB98BA-23F6-41CD-A430-01DA7AC5C625}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MassTransit.Persistance.RavenDbIntegration.Tests</RootNamespace>
-    <AssemblyName>MassTransit.Persistance.RavenDbIntegration.Tests</AssemblyName>
+    <RootNamespace>MassTransit.Persistence.RavenDbIntegration.Tests</RootNamespace>
+    <AssemblyName>MassTransit.Persistence.RavenDbIntegration.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -128,9 +128,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MassTransit.Persistance.RavenDb\MassTransit.Persistance.RavenDb.csproj">
+    <ProjectReference Include="..\MassTransit.Persistence.RavenDb\MassTransit.Persistence.RavenDb.csproj">
       <Project>{016A494C-CA77-4C06-B7ED-22BC2456414F}</Project>
-      <Name>MassTransit.Persistance.RavenDb</Name>
+      <Name>MassTransit.Persistence.RavenDb</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
