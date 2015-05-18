@@ -2,3 +2,6 @@ packages
 _ReSharper.*
 bin
 obj
+TestResult.xml
+build/
+src/SolutionVersion.cs
