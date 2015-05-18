@@ -14,7 +14,7 @@ namespace MassTransit
 {
     using System;
     using BusConfigurators;
-    using Persistence.RavenDb;
+    using Persistence.RavenDB;
     using Raven.Client;
     using SubscriptionConfigurators;
     using Subscriptions.Coordinator;
@@ -28,7 +28,7 @@ namespace MassTransit
         public static void UseRavenDbSubscriptionStorage(this ServiceBusConfigurator configurator,
             IDocumentStore documentStore)
         {
-            Func<SubscriptionStorage> factoryMethod = () => new RavenDbSubscriptionStorage(documentStore);
+            Func<SubscriptionStorage> factoryMethod = () => new RavenSubscriptionStorage(documentStore);
 
             var builderConfigurator = new SubscriptionRouterBuilderConfiguratorImpl(
                 x => x.UseSubscriptionStorage(factoryMethod));

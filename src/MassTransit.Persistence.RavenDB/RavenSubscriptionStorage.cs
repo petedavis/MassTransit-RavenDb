@@ -1,6 +1,6 @@
 ﻿
 
-namespace MassTransit.Persistence.RavenDb
+namespace MassTransit.Persistence.RavenDB
 {
     using System;
     using System.Collections.Generic;
@@ -10,14 +10,14 @@ namespace MassTransit.Persistence.RavenDb
     using Raven.Client;
     using Raven.Client.Linq;
 
-    public class RavenDbSubscriptionStorage :
+    public class RavenSubscriptionStorage :
         SubscriptionStorage
     {
-        static readonly ILog Log = Logger.Get<RavenDbSubscriptionStorage>();
+        static readonly ILog Log = Logger.Get<RavenSubscriptionStorage>();
 
         private readonly IDocumentStore _documentStore;
 
-        public RavenDbSubscriptionStorage(IDocumentStore documentStore)
+        public RavenSubscriptionStorage(IDocumentStore documentStore)
         {
             _documentStore = documentStore;
         }

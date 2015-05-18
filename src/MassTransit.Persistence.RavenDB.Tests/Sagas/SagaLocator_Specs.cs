@@ -1,4 +1,4 @@
-﻿namespace MassTransit.Persistence.RavenDbIntegration.Tests.Sagas
+﻿namespace MassTransit.Persistence.RavenDB.Tests.Sagas
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     using Magnum.Extensions;
     using NUnit.Framework;
     using Raven.Client;
-    using RavenDb;
+    using RavenDB;
     using Saga;
 
     [TestFixture, Category("Integration")]
@@ -40,7 +40,7 @@
         [Test]
         public void A_correlated_message_should_find_the_correct_saga()
         {
-            var repository = new RavenDbSagaRepository<TestSaga>(_store);
+            var repository = new RavenSagaRepository<TestSaga>(_store);
             var ping = new PingMessage(_sagaId);
 
             var initiatePolicy = new InitiatingSagaPolicy<TestSaga, InitiateSimpleSaga>(x => x.CorrelationId, x => false);

@@ -10,17 +10,17 @@ using MassTransit.Util;
 using Raven.Client;
 using Raven.Client.Linq;
 
-namespace MassTransit.Persistence.RavenDb
+namespace MassTransit.Persistence.RavenDB
 {
-    public class RavenDbSagaRepository<TSaga> : 
+    public class RavenSagaRepository<TSaga> : 
         ISagaRepository<TSaga> where TSaga : class, ISaga
     {
-        private static readonly ILog Log = Logger.Get<RavenDbSagaRepository<TSaga>>();
+        private static readonly ILog Log = Logger.Get<RavenSagaRepository<TSaga>>();
 
         private readonly IDocumentStore _documentStore;
 
 
-        public RavenDbSagaRepository(IDocumentStore documentStore)
+        public RavenSagaRepository(IDocumentStore documentStore)
         {
             _documentStore = documentStore;
         }

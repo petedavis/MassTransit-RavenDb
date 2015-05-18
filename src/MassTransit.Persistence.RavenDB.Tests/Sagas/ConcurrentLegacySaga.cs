@@ -1,4 +1,4 @@
-﻿namespace MassTransit.Persistence.RavenDbIntegration.Tests.Sagas
+﻿namespace MassTransit.Persistence.RavenDB.Tests.Sagas
 {
     using System;
     using System.Diagnostics;

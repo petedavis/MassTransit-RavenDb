@@ -1,6 +1,6 @@
 ﻿using Raven.Client.Embedded;
 
-namespace MassTransit.Persistence.RavenDbIntegration.Tests.Framework
+namespace MassTransit.Persistence.RavenDB.Tests.Framework
 {
     using Raven.Client;
     using Raven.Client.Document;
