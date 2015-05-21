@@ -11,15 +11,15 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using System.Diagnostics;
+using System.Runtime.Serialization;
+using System.Threading;
+using Magnum.StateMachine;
+using MassTransit.Saga;
+
 namespace MassTransit.Persistence.RavenDB.Tests.Sagas
 {
-    using System;
-    using System.Diagnostics;
-    using System.Runtime.Serialization;
-    using System.Threading;
-    using Magnum.StateMachine;
-    using Saga;
-
     public class ConcurrentSaga :
         SagaStateMachine<ConcurrentSaga>,
         ISaga

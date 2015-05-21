@@ -1,11 +1,11 @@
-﻿namespace MassTransit.Persistence.RavenDB.Tests.Sagas
-{
-    using System;
-    using System.Diagnostics;
-    using System.Threading;
-    using Logging;
-    using Saga;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
+using MassTransit.Logging;
+using MassTransit.Saga;
 
+namespace MassTransit.Persistence.RavenDB.Tests.Sagas
+{
     public class ConcurrentLegacySaga :
         ISaga,
         InitiatedBy<StartConcurrentSaga>,

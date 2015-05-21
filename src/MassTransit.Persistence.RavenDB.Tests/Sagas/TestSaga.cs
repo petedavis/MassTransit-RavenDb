@@ -1,12 +1,10 @@
 using System;
+using System.Runtime.Serialization;
 using Magnum.StateMachine;
 using MassTransit.Saga;
 
 namespace MassTransit.Persistence.RavenDB.Tests.Sagas
 {
-    using System.Runtime.Serialization;
-    using Raven.Imports.Newtonsoft.Json;
-
     public class TestSaga :
         SagaStateMachine<TestSaga>,
         ISaga

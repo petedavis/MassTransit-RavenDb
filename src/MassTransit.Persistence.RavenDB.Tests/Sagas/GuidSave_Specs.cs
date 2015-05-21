@@ -11,21 +11,17 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Magnum.TestFramework;
 using MassTransit.Persistence.RavenDB.Tests.Framework;
+using NUnit.Framework;
+using Raven.Client;
 
 namespace MassTransit.Persistence.RavenDB.Tests.Sagas
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using Magnum.TestFramework;
-    using NUnit.Framework;
-    using Raven.Abstractions.Data;
-    using Raven.Client;
-    using Raven.Client.Document;
-    using Raven.Client.Indexes;
-
     [TestFixture, Category("Integration")]
     public class Saving_correlation_id_values_to_ravendb_document_store
 

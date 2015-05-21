@@ -1,7 +1,7 @@
-﻿namespace MassTransit.Persistence.RavenDB.Tests.Sagas
-{
-    using System;
+﻿using System;
 
+namespace MassTransit.Persistence.RavenDB.Tests.Sagas
+{
     [Serializable]
     public class PingMessage :
         IEquatable<PingMessage>,

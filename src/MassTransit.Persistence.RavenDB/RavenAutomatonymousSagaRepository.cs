@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Automatonymous;
 using MassTransit.Exceptions;
 using MassTransit.Logging;
 using MassTransit.Pipeline;
@@ -11,24 +12,27 @@ using Raven.Client.Linq;
 
 namespace MassTransit.Persistence.RavenDB
 {
-    public class RavenSagaRepository<TSaga> : 
-        ISagaRepository<TSaga> where TSaga : class, ISaga
+    public class RavenAutomatonymousSagaRepository<TInstance, TSaga> : ISagaRepository<TInstance>
+        where TInstance : class, ISaga
+        where TSaga : class, StateMachine<TInstance>
     {
-        private static readonly ILog Log = Logger.Get<RavenSagaRepository<TSaga>>();
+        private static readonly ILog Log = Logger.Get<RavenAutomatonymousSagaRepository<TInstance, TSaga>>();
 
         private readonly IDocumentStore _documentStore;
 
 
-        public RavenSagaRepository(IDocumentStore documentStore)
+        public RavenAutomatonymousSagaRepository(TSaga saga, IDocumentStore documentStore)
         {
             _documentStore = documentStore;
+            documentStore.Conventions.CustomizeJsonSerializer =
+                serializer => serializer.Converters.Add(new AutomatonymousStateJsonConverter<TSaga>(saga));
         }
 
-        public IEnumerable<Action<IConsumeContext<TMessage>>> GetSaga<TMessage>(IConsumeContext<TMessage> context, Guid sagaId, InstanceHandlerSelector<TSaga, TMessage> selector, ISagaPolicy<TSaga, TMessage> policy) where TMessage : class
+        public IEnumerable<Action<IConsumeContext<TMessage>>> GetSaga<TMessage>(IConsumeContext<TMessage> context, Guid sagaId, InstanceHandlerSelector<TInstance, TMessage> selector, ISagaPolicy<TInstance, TMessage> policy) where TMessage : class
         {
             using(var session = _documentStore.OpenSession())
             {
-                var instance = session.Load<TSaga>(GetDocumentId(sagaId));
+                var instance = session.Load<TInstance>(GetDocumentId(sagaId));
                 if(instance == null)
                 {
                     if(policy.CanCreateInstance(context))
@@ -37,7 +41,7 @@ namespace MassTransit.Persistence.RavenDB
                             {
                                 if (Log.IsDebugEnabled)
                                     Log.DebugFormat("SAGA: {0} Creating New {1} for {2}",
-                                                     typeof (TSaga).ToFriendlyName(), sagaId,
+                                                     typeof (TInstance).ToFriendlyName(), sagaId,
                                                      typeof (TMessage).ToFriendlyName());
 
                                 try
@@ -54,7 +58,7 @@ namespace MassTransit.Persistence.RavenDB
                                 }
                                 catch (Exception ex)
                                 {
-                                    var sex = new SagaException("Create Saga Instance Exception", typeof(TSaga), typeof(TMessage), sagaId, ex);
+                                    var sex = new SagaException("Create Saga Instance Exception", typeof(TInstance), typeof(TMessage), sagaId, ex);
                                     if (Log.IsErrorEnabled)
                                         Log.Error(sex);
                                     
@@ -65,7 +69,7 @@ namespace MassTransit.Persistence.RavenDB
                     else
                     {
                         if (Log.IsDebugEnabled)
-                            Log.DebugFormat("SAGA: {0} Ignoring Missing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
+                            Log.DebugFormat("SAGA: {0} Ignoring Missing {1} for {2}", typeof(TInstance).ToFriendlyName(), sagaId,
                                 typeof(TMessage).ToFriendlyName());
                     }
                 }
@@ -76,7 +80,7 @@ namespace MassTransit.Persistence.RavenDB
                         yield return x =>
                         {
                             if (Log.IsDebugEnabled)
-                                Log.DebugFormat("SAGA: {0} Using Existing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
+                                Log.DebugFormat("SAGA: {0} Using Existing {1} for {2}", typeof(TInstance).ToFriendlyName(), sagaId,
                                     typeof(TMessage).ToFriendlyName());
 
                             try
@@ -91,7 +95,7 @@ namespace MassTransit.Persistence.RavenDB
                             }
                             catch (Exception ex)
                             {
-                                var sex = new SagaException("Existing Saga Instance Exception", typeof(TSaga), typeof(TMessage), sagaId, ex);
+                                var sex = new SagaException("Existing Saga Instance Exception", typeof(TInstance), typeof(TMessage), sagaId, ex);
                                 if (Log.IsErrorEnabled)
                                     Log.Error(sex);
                                 
@@ -102,7 +106,7 @@ namespace MassTransit.Persistence.RavenDB
                     else
                     {
                         if (Log.IsDebugEnabled)
-                            Log.DebugFormat("SAGA: {0} Ignoring Existing {1} for {2}", typeof(TSaga).ToFriendlyName(), sagaId,
+                            Log.DebugFormat("SAGA: {0} Ignoring Existing {1} for {2}", typeof(TInstance).ToFriendlyName(), sagaId,
                                 typeof(TMessage).ToFriendlyName());
                     }
                 }
@@ -113,19 +117,19 @@ namespace MassTransit.Persistence.RavenDB
 
         private string GetDocumentId(Guid sagaId)
         {
-            return typeof(TSaga).Name + "/" + sagaId;
+            return typeof(TInstance).Name + "/" + sagaId;
         }
 
-        public IEnumerable<Guid> Find(ISagaFilter<TSaga> filter)
+        public IEnumerable<Guid> Find(ISagaFilter<TInstance> filter)
         {
             return Where(filter, x => x.CorrelationId);
         }
 
-        public IEnumerable<TSaga> Where(ISagaFilter<TSaga> filter)
+        public IEnumerable<TInstance> Where(ISagaFilter<TInstance> filter)
         {
             using (var session = _documentStore.OpenSession())
             {
-                List<TSaga> result = session.Query<TSaga>()
+                List<TInstance> result = session.Query<TInstance>()
                     .Where(filter.FilterExpression)
                     .ToList();
 
@@ -133,16 +137,16 @@ namespace MassTransit.Persistence.RavenDB
             }
         }
 
-        public IEnumerable<TResult> Where<TResult>(ISagaFilter<TSaga> filter, Func<TSaga, TResult> transformer)
+        public IEnumerable<TResult> Where<TResult>(ISagaFilter<TInstance> filter, Func<TInstance, TResult> transformer)
         {
             return Where(filter).Select(transformer);
         }
 
-        public IEnumerable<TResult> Select<TResult>(Func<TSaga, TResult> transformer)
+        public IEnumerable<TResult> Select<TResult>(Func<TInstance, TResult> transformer)
         {
             using (var session = _documentStore.OpenSession())
             {
-                List<TResult> result = session.Query<TSaga>()
+                List<TResult> result = session.Query<TInstance>()
                     .Select(transformer)
                     .ToList();
 

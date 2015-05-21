@@ -1,10 +1,9 @@
-﻿using Raven.Client.Embedded;
+﻿using Raven.Client;
+using Raven.Client.Document;
+using Raven.Client.Embedded;
 
 namespace MassTransit.Persistence.RavenDB.Tests.Framework
 {
-    using Raven.Client;
-    using Raven.Client.Document;
-
     public class TestConfigurator
     {
         public static IDocumentStore CreateDocumentStore()

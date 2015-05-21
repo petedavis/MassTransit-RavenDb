@@ -36,6 +36,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Automatonymous, Version=1.2.45.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Automatonymous.1.2.8\lib\net40\Automatonymous.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Automatonymous.MassTransitIntegration, Version=1.2.45.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Automatonymous.MassTransit.1.2.8\lib\net40\Automatonymous.MassTransitIntegration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Magnum, Version=2.1.3.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <HintPath>..\packages\Magnum.2.1.3\lib\NET40\Magnum.dll</HintPath>
       <Private>True</Private>
@@ -113,8 +121,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Taskell, Version=0.1.2.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Taskell.0.1.2\lib\net40\Taskell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automatonymous\AutomatonymousSagaRepo_Specs.cs" />
     <Compile Include="EndpointTestFixture.cs" />
     <Compile Include="Framework\TestConfigurator.cs" />
     <Compile Include="LoopbackLocalAndRemoteTestFixture.cs" />
@@ -138,6 +151,7 @@
       <Name>MassTransit.Persistence.RavenDB</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
