@@ -152,6 +152,7 @@ Target "Default" (fun _ ->
 "Clean"
   ==> "RestorePackages"
   ==> "Build"
+  ==> "UnitTests"
   ==> "Package"
   ==> "Default"
 

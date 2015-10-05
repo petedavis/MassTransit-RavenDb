@@ -2,7 +2,7 @@
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 
-namespace MassTransit.Persistence.RavenDB.Tests.Framework
+namespace MassTransit.Persistence.RavenDB.Tests
 {
     public class TestConfigurator
     {
