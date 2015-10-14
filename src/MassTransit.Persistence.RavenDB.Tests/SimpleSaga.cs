@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MassTransit.Saga;
 using MassTransit.Tests.Saga.Messages;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace MassTransit.Persistence.RavenDB.Tests
 {
@@ -32,6 +33,7 @@ namespace MassTransit.Persistence.RavenDB.Tests
             Observed = true;
         }
 
+        [JsonIgnore]
         public Expression<Func<SimpleSaga, ObservableSagaMessage, bool>> CorrelationExpression
         {
             get { return (saga, message) => saga.Name == message.Name; }

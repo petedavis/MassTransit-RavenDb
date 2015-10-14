@@ -89,8 +89,9 @@ namespace MassTransit.Persistence.RavenDB.Saga
 
                     await session.SaveChangesAsync();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    _log.Error(string.Format("SAGA:{0}:{1} {2}", TypeMetadataCache<TSaga>.ShortName, context.CorrelationId, e.Message), e);
                     throw;
                 }
             }
@@ -219,6 +220,8 @@ namespace MassTransit.Persistence.RavenDB.Saga
 
                 if (!proxy.IsCompleted)
                     await _session.StoreAsync(context.Saga);
+
+                await _session.SaveChangesAsync();
             }
         }
     }
