@@ -22,7 +22,12 @@ namespace MassTransit.RavenDbIntegration.Saga
         private readonly IRavenDbSagaConsumeContextFactory _ravenDbSagaConsumeContextFactory;
 
         public RavenDbSagaRepository(string url, string database)
-            : this(new DocumentStore {Url = url, DefaultDatabase = database}.Initialize(), new RavenDbSagaConsumeContextFactory())
+            : this(new DocumentStore {Url = url, DefaultDatabase = database}.Initialize())
+        {
+        }
+
+        public RavenDbSagaRepository(IDocumentStore documentStore)
+            : this(documentStore, new RavenDbSagaConsumeContextFactory())
         {
         }
 
