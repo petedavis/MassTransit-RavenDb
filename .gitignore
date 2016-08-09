@@ -1,6 +1,9 @@
 build_output/*
 build_artifacts/*
 build_temp/*
+build/
+tools/
+
 *.suo
 *.user
 packages

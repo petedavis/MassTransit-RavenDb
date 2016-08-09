@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
     <id>@project@</id>
     <version>@build.number@</version>
     <authors>@authors@</authors>
@@ -8,7 +8,7 @@
     <summary>@summary@</summary>
     <licenseUrl>https://github.com/MassTransit/MassTransit/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/MassTransit/MassTransit</projectUrl>
-    <iconUrl>http://masstransit.readthedocs.org/en/master/_images/mt-logo.png</iconUrl>
+    <iconUrl>http://MassTransit-project.com/wp-content/themes/pandora/slide.1.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
